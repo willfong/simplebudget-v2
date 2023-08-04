@@ -1,14 +1,3 @@
-/*
-
-
-export default function App() {
-	return (
-
-	);
-}
-
-
-*/
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Home";
@@ -17,7 +6,14 @@ import ReportPage from "./pages/Report";
 import SettingsPage from "./pages/Settings";
 import Header from "./components/Header";
 
-export default function Example() {
+const routeList = [
+	{ name: "Home", href: "/", component: HomePage },
+	{ name: "Spend", href: "/spend", component: SpendPage },
+	{ name: "Report", href: "/report", component: ReportPage },
+	{ name: "Settings", href: "/settings", component: SettingsPage },
+];
+
+export default function App() {
 	return (
 		<Router>
 			{/*
@@ -29,8 +25,11 @@ export default function Example() {
         ```
       */}
 			<div className="min-h-full">
-				<Header />
+				<Header routeList={routeList} />
 				<Routes>
+					{routeList.map((route) => (
+						<Route key={route.path} path={route.path} element={<route.component />} />
+					))}
 					<Route path="/" element={<HomePage />} />
 					<Route path="/spend" element={<SpendPage />} />
 					<Route path="/report" element={<ReportPage />} />

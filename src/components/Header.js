@@ -7,14 +7,7 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-const navigation = [
-	{ name: "Home", href: "/", current: true },
-	{ name: "Spend", href: "/spend", current: false },
-	{ name: "Report", href: "/report", current: false },
-	{ name: "Settings", href: "/settings", current: false },
-];
-
-export default function Navigation() {
+export default function Navigation({ routeList }) {
 	return (
 		<Disclosure as="nav" className="border-b border-gray-200 bg-white">
 			{({ open }) => (
@@ -22,21 +15,9 @@ export default function Navigation() {
 					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 						<div className="flex h-16 justify-between">
 							<div className="flex">
-								<div className="flex flex-shrink-0 items-center">
-									<img
-										className="block h-8 w-auto lg:hidden"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-										alt="Your Company"
-									/>
-									<img
-										className="hidden h-8 w-auto lg:block"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-										alt="Your Company"
-									/>
-									SimpleBudget
-								</div>
+								<div className="flex flex-shrink-0 items-center">SimpleBudget</div>
 								<div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-									{navigation.map((item) => (
+									{routeList.map((item) => (
 										<Link
 											key={item.name}
 											to={item.href}
@@ -80,7 +61,7 @@ export default function Navigation() {
 
 					<Disclosure.Panel className="sm:hidden">
 						<div className="space-y-1 pb-3 pt-2">
-							{navigation.map((item) => (
+							{routeList.map((item) => (
 								<Disclosure.Button
 									key={item.name}
 									as="a"
