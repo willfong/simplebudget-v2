@@ -20,7 +20,7 @@ export default function Navigation({ routeList }) {
 									{routeList.map((item) => (
 										<Link
 											key={item.name}
-											to={item.href}
+											to={item.path}
 											className={classNames(
 												item.current
 													? "border-indigo-500 text-gray-900"

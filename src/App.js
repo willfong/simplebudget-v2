@@ -7,10 +7,10 @@ import SettingsPage from "./pages/Settings";
 import Header from "./components/Header";
 
 const routeList = [
-	{ name: "Home", href: "/", component: HomePage },
-	{ name: "Spend", href: "/spend", component: SpendPage },
-	{ name: "Report", href: "/report", component: ReportPage },
-	{ name: "Settings", href: "/settings", component: SettingsPage },
+	{ name: "Home", path: "/", component: HomePage },
+	{ name: "Spend", path: "/spend", component: SpendPage },
+	{ name: "Report", path: "/report", component: ReportPage },
+	{ name: "Settings", path: "/settings", component: SettingsPage },
 ];
 
 export default function App() {
@@ -30,10 +30,6 @@ export default function App() {
 					{routeList.map((route) => (
 						<Route key={route.path} path={route.path} element={<route.component />} />
 					))}
-					<Route path="/" element={<HomePage />} />
-					<Route path="/spend" element={<SpendPage />} />
-					<Route path="/report" element={<ReportPage />} />
-					<Route path="/settings" element={<SettingsPage />} />
 				</Routes>
 			</div>
 		</Router>
