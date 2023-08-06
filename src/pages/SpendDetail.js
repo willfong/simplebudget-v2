@@ -31,7 +31,6 @@ export default function SpendDetailPage() {
 				acc[dateWithoutTime].push(item);
 				return acc;
 			}, {});
-			console.log(data);
 			setPurchases(data);
 		};
 		fetchPurchases();

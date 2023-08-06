@@ -76,7 +76,6 @@ async function purchasesGetByCategory(categoryId) {
 async function purchasesGetByMonth(year, month) {
 	const startDate = new Date(year, month);
 	const endDate = new Date();
-	console.log(startDate, endDate);
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readonly");
 	const store = tx.objectStore(TABLE_PURCHASES);

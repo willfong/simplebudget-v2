@@ -14,7 +14,6 @@ export default function SettingsCategories() {
 
 	const fetchCategories = async () => {
 		const data = await categoriesGetAll();
-		console.log(data);
 		setCategories(data);
 	};
 
