@@ -51,11 +51,13 @@ async function deleteAllData() {
 	await deleteDB(DB_NAME);
 }
 
-async function purchasesAdd(categoryId, amount, date, time) {
+async function purchasesAdd(categoryId, amount, date) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
 	const store = tx.objectStore(TABLE_PURCHASES);
-	await store.add({ categoryId, amount, date });
+	const data = { categoryId: parseInt(categoryId, 10), amount, date };
+	console.log(data);
+	await store.add(data);
 	await tx.complete;
 }
 
@@ -67,7 +69,12 @@ async function purchasesGetByCategory(categoryId) {
 	const tx = db.transaction(TABLE_PURCHASES, "readonly");
 	const store = tx.objectStore(TABLE_PURCHASES);
 	const index = store.index(TABLE_PURCHASES_INDEX_CATEGORYID);
-	const range = IDBKeyRange.bound([categoryId, startDate], [categoryId, endDate], false, true);
+	const range = IDBKeyRange.bound(
+		[parseInt(categoryId, 10), startDate],
+		[parseInt(categoryId, 10), endDate],
+		false,
+		true
+	);
 	const data = await index.getAll(range);
 	const sortedData = data.sort((a, b) => b.date - a.date);
 	return sortedData;

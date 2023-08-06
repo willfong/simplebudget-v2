@@ -43,16 +43,22 @@ export default function SettingsCategories() {
 				))}
 				<div className="pt-6 sm:flex">
 					<dt className="sm:w-64 sm:flex-none sm:pr-6">
-						<input type="text" placeholder="Name" value={newCategoryName} onChange={handleNewCategoryNameChange} />
+						<input
+							className="p-2"
+							type="text"
+							placeholder="Name"
+							value={newCategoryName}
+							onChange={handleNewCategoryNameChange}
+						/>
 					</dt>
 					<dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
 						<input
+							className="p-2"
 							type="text"
 							placeholder="Amount"
 							value={newCategoryBudget}
 							onChange={handleNewCategoryBudgetChange}
 						/>
-
 						<button
 							type="button"
 							className="font-semibold text-indigo-600 hover:text-indigo-500"
