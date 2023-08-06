@@ -2,15 +2,17 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/Home";
 import SpendPage from "./pages/Spend";
+import SpendDetailPage from "./pages/SpendDetail";
 import ReportPage from "./pages/Report";
 import SettingsPage from "./pages/Settings";
 import Header from "./components/Header";
 
 const routeList = [
-	{ name: "Home", path: "/", component: HomePage },
-	{ name: "Spend", path: "/spend", component: SpendPage },
-	{ name: "Report", path: "/report", component: ReportPage },
-	{ name: "Settings", path: "/settings", component: SettingsPage },
+	{ name: "Home", path: "/", component: HomePage, nav: true },
+	{ name: "Spend", path: "/spend", component: SpendPage, nav: true },
+	{ name: "SpendDetail", path: "/spend/:id", component: SpendDetailPage, nav: false },
+	{ name: "Report", path: "/report", component: ReportPage, nav: true },
+	{ name: "Settings", path: "/settings", component: SettingsPage, nav: true },
 ];
 
 export default function App() {

@@ -1,16 +1,22 @@
-// indexedDB.js
-
-import { openDB } from "idb";
+import { openDB, deleteDB } from "idb";
 
 const DB_NAME = "simplebudget";
 const DB_VERSION = 1;
 const TABLE_CATEGORIES = "categories";
+const TABLE_PURCHASES = "purchases";
+const TABLE_PURCHASES_INDEX_DATE = "purchases_index_date";
+const TABLE_PURCHASES_INDEX_CATEGORYID = "purchases_index_categoryid";
 
 async function initializeDB() {
 	return await openDB(DB_NAME, DB_VERSION, {
 		upgrade(db) {
 			if (!db.objectStoreNames.contains(TABLE_CATEGORIES)) {
 				db.createObjectStore(TABLE_CATEGORIES, { keyPath: "id", autoIncrement: true });
+			}
+			if (!db.objectStoreNames.contains(TABLE_PURCHASES)) {
+				const tblPurchases = db.createObjectStore(TABLE_PURCHASES, { keyPath: "id", autoIncrement: true });
+				tblPurchases.createIndex(TABLE_PURCHASES_INDEX_DATE, "date", { unique: false });
+				tblPurchases.createIndex(TABLE_PURCHASES_INDEX_CATEGORYID, ["categoryId", "date"], { unique: false });
 			}
 		},
 	});
@@ -33,23 +39,38 @@ async function categoriesGetAll() {
 	return store.getAll();
 }
 
-async function deleteAllData() {
+async function categoriesGetById(id) {
 	const db = await dbPromise;
-	const objectStoreNames = db.objectStoreNames;
-	for (let i = 0; i < objectStoreNames.length; i++) {
-		const objectStoreName = objectStoreNames[i];
-		const transaction = db.transaction([objectStoreName], "readwrite");
-		const objectStore = transaction.objectStore(objectStoreName);
-		const clearRequest = objectStore.clear();
-
-		clearRequest.onerror = function (event) {
-			console.error(`Error clearing data from object store ${objectStoreName}:`, event.target.error);
-		};
-
-		clearRequest.onsuccess = function (event) {
-			console.log(`Data cleared from object store ${objectStoreName}`);
-		};
-	}
+	const tx = db.transaction(TABLE_CATEGORIES, "readonly");
+	const store = tx.objectStore(TABLE_CATEGORIES);
+	const item = await store.get(parseInt(id, 10));
+	return item;
 }
 
-export { categoriesAddNew, categoriesGetAll, deleteAllData };
+async function deleteAllData() {
+	await deleteDB(DB_NAME);
+}
+
+async function purchasesAdd(categoryId, amount, date, time) {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
+	const store = tx.objectStore(TABLE_PURCHASES);
+	await store.add({ categoryId, amount, date });
+	await tx.complete;
+}
+
+async function purchasesGetByCategory(categoryId) {
+	const past30Days = 30 * 24 * 60 * 60 * 1000; // Hardcode 30 days for now?
+	const endDate = new Date(); // Current date and time
+	const startDate = new Date(endDate - past30Days); // Date 30 days ago
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PURCHASES, "readonly");
+	const store = tx.objectStore(TABLE_PURCHASES);
+	const index = store.index(TABLE_PURCHASES_INDEX_CATEGORYID);
+	const range = IDBKeyRange.bound([categoryId, startDate], [categoryId, endDate], false, true);
+	const data = index.getAll(range);
+	console.log(data);
+	return data;
+}
+
+export { categoriesAddNew, categoriesGetAll, categoriesGetById, deleteAllData, purchasesAdd, purchasesGetByCategory };

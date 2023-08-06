@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { deleteAllData } from "../idb";
 
 export default function SettingsCategories() {
 	const [deleteConfirm, setDeleteConfirm] = useState("");
 	const [buttonDisabled, setButtonDisabled] = useState(true);
+	const navigate = useNavigate();
 
 	const handleSetDeleteConfirm = (event) => {
 		setDeleteConfirm(event.target.value);
@@ -14,6 +16,7 @@ export default function SettingsCategories() {
 	const handleButton = async () => {
 		await deleteAllData();
 		setDeleteConfirm("");
+		navigate("/");
 	};
 
 	return (
