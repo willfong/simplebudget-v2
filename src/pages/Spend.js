@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { categoriesGetAll } from "../idb";
 
 export default function SpendPage() {
+	const navigate = useNavigate();
 	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
@@ -19,16 +20,19 @@ export default function SpendPage() {
 
 	const fetchCategories = async () => {
 		const data = await categoriesGetAll();
+		if (data.length === 0) {
+			navigate("/settings");
+		}
 		setCategories(data);
 	};
 
 	return (
 		<ul className="divide-y divide-gray-100">
 			{categories.map((c) => (
-				<li key={c.id} className="relative flex justify-between gap-x-6 px-4 py-3 hover:bg-gray-50 sm:px-6 lg:px-8">
+				<li key={c.id} className="relative flex justify-between gap-x-6 px-4 py-8 hover:bg-gray-50 sm:px-6 lg:px-8">
 					<div className="flex gap-x-4 pr-6 sm:w-1/2 sm:flex-none">
 						<div className="min-w-0 flex-auto">
-							<p className="text-sm font-semibold leading-6 text-gray-900">
+							<p className="text-lg font-semibold leading-6 text-gray-900">
 								<Link to={`/spend/${c.id}`}>
 									<span className="absolute inset-x-0 -top-px bottom-0" />
 									{c.name}

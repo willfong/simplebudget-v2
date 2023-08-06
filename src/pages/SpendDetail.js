@@ -80,7 +80,7 @@ export default function SpendDetailPage() {
 							{Object.keys(purchases).map((day) => (
 								<div key={day} className="relative">
 									<div className="sticky top-0 z-10 border-y border-b-gray-200 border-t-gray-100 bg-gray-50 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900">
-										<h3>{format(new Date(day), " MMM dd yyyy")}</h3>
+										<h3>{format(new Date(day), "EEE, MMM dd yyyy")}</h3>
 									</div>
 									<ul className="divide-y divide-gray-100">
 										{purchases[day].map((item) => (
