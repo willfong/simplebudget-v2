@@ -1,4 +1,39 @@
+import React, { useState, useEffect } from "react";
+
+import { purchasesGetByMonth, categoriesGetAll } from "../idb";
+import ReportSummary from "../components/ReportSummary";
+
 export default function ReportPage() {
+	const [purchases, setPurchases] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [summary, setSummary] = useState({});
+
+	useEffect(() => {
+		fetchPurchases();
+		fetchCategories();
+	}, []);
+
+	const fetchCategories = async () => {
+		const data = await categoriesGetAll();
+		setCategories(data);
+	};
+
+	const fetchPurchases = async () => {
+		const currentDate = new Date();
+		const currentYear = currentDate.getFullYear();
+		const currentMonth = currentDate.getMonth();
+		const data = await purchasesGetByMonth(currentYear, currentMonth);
+		setPurchases(data);
+		const summaryData = data.reduce((acc, item) => {
+			if (!acc[item.categoryId]) {
+				acc[item.categoryId] = 0;
+			}
+			acc[item.categoryId] = acc[item.categoryId] + parseFloat(item.amount);
+			return acc;
+		}, {});
+		setSummary(summaryData);
+	};
+
 	return (
 		<div className="py-10">
 			<header>
@@ -7,7 +42,7 @@ export default function ReportPage() {
 				</div>
 			</header>
 			<main>
-				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8"> aaa My homie</div>
+				<ReportSummary categories={categories} summary={summary} />
 			</main>
 		</div>
 	);
