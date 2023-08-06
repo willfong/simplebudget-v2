@@ -7,7 +7,7 @@ export default function HomePage() {
 				</div>
 			</header>
 			<main>
-				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8"> My homie</div>
+				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8"> aaa My homie</div>
 			</main>
 		</div>
 	);
