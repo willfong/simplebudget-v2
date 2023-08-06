@@ -68,9 +68,9 @@ async function purchasesGetByCategory(categoryId) {
 	const store = tx.objectStore(TABLE_PURCHASES);
 	const index = store.index(TABLE_PURCHASES_INDEX_CATEGORYID);
 	const range = IDBKeyRange.bound([categoryId, startDate], [categoryId, endDate], false, true);
-	const data = index.getAll(range);
-	console.log(data);
-	return data;
+	const data = await index.getAll(range);
+	const sortedData = data.sort((a, b) => b.date - a.date);
+	return sortedData;
 }
 
 export { categoriesAddNew, categoriesGetAll, categoriesGetById, deleteAllData, purchasesAdd, purchasesGetByCategory };
