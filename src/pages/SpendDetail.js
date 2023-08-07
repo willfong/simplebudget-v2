@@ -11,6 +11,7 @@ export default function SpendDetailPage() {
 	const [categoryDetail, setCategoryDetail] = useState({});
 	const [purchases, setPurchases] = useState({});
 	const [spendAmount, setSpendAmount] = useState("");
+	const [message, setMessage] = useState("");
 
 	useEffect(() => {
 		inputRef.current.focus();
@@ -40,9 +41,13 @@ export default function SpendDetailPage() {
 		setSpendAmount(event.target.value);
 	};
 
+	const handleMessage = (event) => {
+		setMessage(event.target.value);
+	};
+
 	const handleSpend = async () => {
 		const date = new Date();
-		await purchasesAdd(id, spendAmount, date);
+		await purchasesAdd(id, spendAmount, date, message);
 		navigate("/spend");
 	};
 
@@ -62,6 +67,15 @@ export default function SpendDetailPage() {
 								onChange={handleSpendAmount}
 								className="block w-full border-0 p-4 text-gray-900 placeholder:text-gray-400 text-2xl sm:leading-6 text-center"
 								placeholder="Amount"
+							/>
+							<input
+								type="text"
+								name="name"
+								id="message"
+								value={message}
+								onChange={handleMessage}
+								className="block w-full border-0 p-2 text-gray-900 placeholder:text-gray-400 text-base sm:leading-6 text-center"
+								placeholder="Note (optional)"
 							/>
 							<button
 								type="button"
@@ -87,6 +101,7 @@ export default function SpendDetailPage() {
 												<div className="min-w-0 flex">
 													<p className="text-gray-500">{format(item.date, "HH:MM")}</p>
 													<p className="ml-2 text-gray-900">{item.amount}</p>
+													<p className="ml-2 text-gray-500">{item.message}</p>
 												</div>
 											</li>
 										))}

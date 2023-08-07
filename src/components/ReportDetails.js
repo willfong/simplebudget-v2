@@ -31,8 +31,9 @@ export default function SpendDetailPage({ purchases, categories }) {
 										<li key={item.id} className="flex gap-x-4 px-3 py-5 bg-white">
 											<div className="min-w-0 flex">
 												<p className="text-gray-500">{format(item.date, "HH:MM")}</p>
+												<p className="ml-2 text-gray-500">{categoriesLookup[item.categoryId]["name"]}</p>
 												<p className="ml-2 text-gray-900">{item.amount}</p>
-												<p className="ml-2 text-gray-900">{categoriesLookup[item.categoryId]["name"]}</p>
+												<p className="ml-2 text-gray-500">{item.message}</p>
 											</div>
 										</li>
 									))}

@@ -51,11 +51,11 @@ async function deleteAllData() {
 	await deleteDB(DB_NAME);
 }
 
-async function purchasesAdd(categoryId, amount, date) {
+async function purchasesAdd(categoryId, amount, date, message) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
 	const store = tx.objectStore(TABLE_PURCHASES);
-	const data = { categoryId: parseInt(categoryId, 10), amount, date };
+	const data = { categoryId: parseInt(categoryId, 10), amount, date, message };
 	console.log(data);
 	await store.add(data);
 	await tx.complete;
