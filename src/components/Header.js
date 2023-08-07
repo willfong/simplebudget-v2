@@ -69,8 +69,8 @@ export default function Navigation({ routeList }) {
 									item.nav && (
 										<Disclosure.Button
 											key={item.name}
-											as="a"
-											href={item.path}
+											as={Link}
+											to={item.path}
 											className={classNames(
 												item.current
 													? "border-indigo-500 bg-indigo-50 text-indigo-700"
