@@ -92,17 +92,19 @@ export default function SpendDetailPage() {
 						<nav className="h-full overflow-y-auto mt-4">
 							{Object.keys(purchases).map((day) => (
 								<div key={day} className="relative">
-									<div className="sticky top-0 z-10 border-y border-b-gray-200 border-t-gray-100 bg-gray-50 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900">
+									<div className="sticky top-0 z-10 bg-zinc-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900">
 										<h3>{format(new Date(day), "EEE, MMM dd yyyy")}</h3>
 									</div>
 									<ul className="divide-y divide-gray-100">
 										{purchases[day].map((item) => (
 											<li key={item.id} className="flex gap-x-4 px-3 py-5 bg-white">
-												<div className="min-w-0 flex">
+												<div className="flex-none flex gap-x-2 items-center">
 													<p className="text-gray-500">{format(item.date, "HH:MM")}</p>
-													<p className="ml-2 text-gray-900">{item.amount}</p>
-													<p className="ml-2 text-gray-500">{item.message}</p>
 												</div>
+												<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
+													<p className="truncate">{item.message}</p>
+												</div>
+												<div className="flex-none flex-shrink-0 text-gray-900 text-right">{item.amount}</div>
 											</li>
 										))}
 									</ul>

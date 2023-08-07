@@ -6,6 +6,7 @@ import { categoriesGetAll, purchasesAdd } from "../idb";
 
 export default function SettingsCategories() {
 	const [amount, setAmount] = useState("");
+	const [message, setMessage] = useState("");
 	const [categories, setCategories] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState("");
 	const [startDate, setStartDate] = useState(new Date());
@@ -21,14 +22,18 @@ export default function SettingsCategories() {
 	};
 
 	const handleAddAmount = async () => {
-		console.log(startDate, selectedCategory, amount);
-		await purchasesAdd(selectedCategory, amount, startDate);
+		await purchasesAdd(selectedCategory, amount, startDate, message);
 		setStartDate(new Date());
 		setAmount("");
+		setMessage("");
 	};
 
 	const handleAmountChange = (event) => {
 		setAmount(event.target.value);
+	};
+
+	const handleMessageChange = (event) => {
+		setMessage(event.target.value);
 	};
 
 	const handleCategoryChange = (event) => {
@@ -61,6 +66,13 @@ export default function SettingsCategories() {
 						placeholder="amount"
 						value={amount}
 						onChange={handleAmountChange}
+					/>
+					<input
+						className="flex-grow p-2"
+						type="text"
+						placeholder="Note (optional)"
+						value={message}
+						onChange={handleMessageChange}
 					/>
 					<button
 						type="button"

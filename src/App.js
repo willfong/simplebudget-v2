@@ -26,7 +26,7 @@ export default function App() {
         <body class="h-full">
         ```
       */}
-			<div className="bg-slate-100 h-screen flex flex-col">
+			<div className="min-h-full bg-zinc-100 flex flex-col">
 				<Header routeList={routeList} />
 				<div>
 					<Routes>
