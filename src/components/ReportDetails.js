@@ -24,7 +24,7 @@ export default function SpendDetailPage({ purchases, categories }) {
 							<div key={day} className="relative">
 								<div className="sticky top-0 z-10 bg-zinc-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 flex justify-between">
 									<h3>{format(new Date(day), "EEE, MMM dd yyyy")}</h3>
-									<div className="text-gray-500">Total: {dayTotals[day]}</div>
+									<div className="text-gray-500">Total: {dayTotals[day].toLocaleString()}</div>
 								</div>
 								<ul className="divide-y divide-gray-100">
 									{purchases[day].map((item) => (
@@ -36,7 +36,9 @@ export default function SpendDetailPage({ purchases, categories }) {
 											<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
 												<p className="truncate">{item.message}</p>
 											</div>
-											<div className="flex-none flex-shrink-0 text-gray-900 text-right">{item.amount}</div>
+											<div className="flex-none flex-shrink-0 text-gray-900 text-right">
+												{parseFloat(item.amount).toLocaleString()}
+											</div>
 										</li>
 									))}
 								</ul>

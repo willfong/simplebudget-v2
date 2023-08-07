@@ -46,7 +46,7 @@ export default function SpendPage() {
 						</div>
 						<div className="flex items-center justify-between gap-x-4 sm:w-1/2 sm:flex-none">
 							<div className="sm:block">
-								<p className="mt-1 text-xs leading-5 text-gray-500">{c.budget}</p>
+								<p className="mt-1 text-xs leading-5 text-gray-500">{parseFloat(c.budget).toLocaleString()}</p>
 							</div>
 							<ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
 						</div>

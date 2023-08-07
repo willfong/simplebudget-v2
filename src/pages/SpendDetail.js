@@ -87,7 +87,9 @@ export default function SpendDetailPage() {
 						</div>
 
 						{categoryDetail.budget && (
-							<p className="mt-1 text-sm leading-6 text-gray-500">Budget: {categoryDetail.budget}</p>
+							<p className="mt-1 text-sm leading-6 text-gray-500">
+								Budget: {parseFloat(categoryDetail.budget).toLocaleString()}
+							</p>
 						)}
 						<nav className="h-full overflow-y-auto mt-4">
 							{Object.keys(purchases).map((day) => (
@@ -104,7 +106,9 @@ export default function SpendDetailPage() {
 												<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
 													<p className="truncate">{item.message}</p>
 												</div>
-												<div className="flex-none flex-shrink-0 text-gray-900 text-right">{item.amount}</div>
+												<div className="flex-none flex-shrink-0 text-gray-900 text-right">
+													{parseFloat(item.amount).toLocaleString()}
+												</div>
 											</li>
 										))}
 									</ul>
