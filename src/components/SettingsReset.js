@@ -20,7 +20,7 @@ export default function SettingsCategories() {
 	};
 
 	return (
-		<div>
+		<div className="bg-white p-4">
 			<h2 className="text-base font-semibold leading-7 text-gray-900">Reset</h2>
 			<p className="mt-1 text-sm leading-6 text-gray-500">
 				Clear all your data. Enter "confirm" in the textbox below. Refresh the page after (TODO...)

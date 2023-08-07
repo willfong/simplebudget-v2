@@ -36,12 +36,12 @@ export default function SettingsCategories() {
 	};
 
 	return (
-		<div>
+		<div className="bg-white p-4">
 			<h2 className="text-base font-semibold leading-7 text-gray-900">Manual Entry</h2>
 			<p className="mt-1 text-sm leading-6 text-gray-500">Add a missing purchase.</p>
 
 			<dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
-				<div className="flex items-center space-x-6 my-2">
+				<div className="flex flex-col items-center space-y-6 my-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-6">
 					<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} showTimeSelect dateFormat="Pp" />
 					<select
 						id="category"

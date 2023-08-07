@@ -26,13 +26,15 @@ export default function App() {
         <body class="h-full">
         ```
       */}
-			<div className="min-h-full">
+			<div className="bg-slate-100 h-screen flex flex-col">
 				<Header routeList={routeList} />
-				<Routes>
-					{routeList.map((route) => (
-						<Route key={route.path} path={route.path} element={<route.component />} />
-					))}
-				</Routes>
+				<div>
+					<Routes>
+						{routeList.map((route) => (
+							<Route key={route.path} path={route.path} element={<route.component />} />
+						))}
+					</Routes>
+				</div>
 			</div>
 		</Router>
 	);
