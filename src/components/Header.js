@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
-
 export default function Navigation({ routeList }) {
 	return (
 		<Disclosure as="nav" className=" bg-lime-800">

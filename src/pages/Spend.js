@@ -8,6 +8,13 @@ export default function SpendPage() {
 	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
+		const fetchCategories = async () => {
+			const data = await categoriesGetAll();
+			if (data.length === 0) {
+				navigate("/settings");
+			}
+			setCategories(data);
+		};
 		fetchCategories();
 		const scrollToTop = () => {
 			window.scrollTo(0, 0); // Scroll to the top of the window (x: 0, y: 0)
@@ -16,15 +23,7 @@ export default function SpendPage() {
 		return () => {
 			window.removeEventListener("scroll", scrollToTop);
 		};
-	}, []);
-
-	const fetchCategories = async () => {
-		const data = await categoriesGetAll();
-		if (data.length === 0) {
-			navigate("/settings");
-		}
-		setCategories(data);
-	};
+	}, [navigate]);
 
 	return (
 		<div>
