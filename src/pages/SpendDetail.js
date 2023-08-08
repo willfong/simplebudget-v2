@@ -57,7 +57,15 @@ export default function SpendDetailPage() {
 				<div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none ">
 					<div>
 						<div className="rounded-md my-6 px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 bg-white">
-							<h2 className="text-base font-semibold leading-7 text-center text-gray-500">{categoryDetail.name}</h2>
+							<div className="flex justify-between">
+								<label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+									{categoryDetail.name}
+								</label>
+								<span className="text-sm  text-zinc-400" id="email-optional">
+									{spendAmount ? parseFloat(spendAmount).toLocaleString() : ""}
+								</span>
+							</div>
+
 							<input
 								ref={inputRef}
 								type="tel"
@@ -80,16 +88,19 @@ export default function SpendDetailPage() {
 							<button
 								type="button"
 								onClick={handleSpend}
-								className="w-full my-4 rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+								disabled={!spendAmount}
+								className={`w-full my-4 rounded-md ${
+									spendAmount ? "bg-zinc-200 text-zinc-600" : "bg-zinc-100 text-zinc-300"
+								}  px-3.5 py-2.5 text-sm font-semibold  shadow-sm`}
 							>
 								Spend
 							</button>
 						</div>
 
-						{categoryDetail.budget && (
-							<p className="mt-1 text-sm leading-6 text-gray-500">
-								Budget: {parseFloat(categoryDetail.budget).toLocaleString()}
-							</p>
+						{categoryDetail.budget ? (
+							<p className="mt-1 text-sm leading-6 text-gray-500">Budget: {categoryDetail.budget.toLocaleString()}</p>
+						) : (
+							""
 						)}
 						<nav className="h-full overflow-y-auto mt-4">
 							{Object.keys(purchases).map((day) => (
@@ -107,7 +118,7 @@ export default function SpendDetailPage() {
 													<p className="truncate">{item.message}</p>
 												</div>
 												<div className="flex-none flex-shrink-0 text-gray-900 text-right">
-													{parseFloat(item.amount).toLocaleString()}
+													{item.amount.toLocaleString()}
 												</div>
 											</li>
 										))}

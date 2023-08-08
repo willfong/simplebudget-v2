@@ -12,7 +12,7 @@ export default function ReportSummary({ categories, summary }) {
 											{c.name}
 										</td>
 										<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-											{summary[c.id].toLocaleString() ?? 0}
+											{summary[c.id]?.toLocaleString() ?? 0}
 										</td>
 									</tr>
 								))}

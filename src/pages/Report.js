@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
 import { purchasesGetByMonth, categoriesGetAll } from "../idb";
@@ -6,21 +7,24 @@ import ReportSummary from "../components/ReportSummary";
 import ReportDetails from "../components/ReportDetails";
 
 export default function ReportPage() {
+	const navigate = useNavigate();
 	const [purchases, setPurchases] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [summary, setSummary] = useState({});
 	const [dataLoaded, setDataLoaded] = useState(false);
 
 	useEffect(() => {
+		const fetchCategories = async () => {
+			const data = await categoriesGetAll();
+			if (data.length === 0) {
+				navigate("/settings");
+			}
+			setCategories(data);
+		};
 		Promise.all([fetchPurchases(), fetchCategories()]).then(() => {
 			setDataLoaded(true);
 		});
-	}, []);
-
-	const fetchCategories = async () => {
-		const data = await categoriesGetAll();
-		setCategories(data);
-	};
+	}, [navigate]);
 
 	const fetchPurchases = async () => {
 		const currentDate = new Date();
@@ -38,7 +42,7 @@ export default function ReportPage() {
 			if (!acc[item.categoryId]) {
 				acc[item.categoryId] = 0;
 			}
-			acc[item.categoryId] = acc[item.categoryId] + parseFloat(item.amount);
+			acc[item.categoryId] = acc[item.categoryId] + item.amount;
 			return acc;
 		}, {});
 		setSummary(summaryData);

@@ -5,7 +5,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Navigation({ routeList }) {
 	return (
-		<Disclosure as="nav" className=" bg-lime-800">
+		<Disclosure as="nav" className="bg-lime-800">
 			{({ open }) => (
 				<>
 					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

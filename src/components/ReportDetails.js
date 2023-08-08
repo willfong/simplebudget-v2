@@ -8,12 +8,10 @@ export default function SpendDetailPage({ purchases, categories }) {
 	}, {});
 
 	const dayTotals = Object.entries(purchases).reduce((result, [date, objectsArray]) => {
-		const totalAmount = objectsArray.reduce((sum, obj) => sum + parseFloat(obj.amount), 0);
+		const totalAmount = objectsArray.reduce((sum, obj) => sum + obj.amount, 0);
 		result[date] = totalAmount;
 		return result;
 	}, {});
-
-	console.log(dayTotals);
 
 	return (
 		<main className="px-3 py-2 lg:flex-auto lg:px-0 lg:py-20">
@@ -37,7 +35,7 @@ export default function SpendDetailPage({ purchases, categories }) {
 												<p className="truncate">{item.message}</p>
 											</div>
 											<div className="flex-none flex-shrink-0 text-gray-900 text-right">
-												{parseFloat(item.amount).toLocaleString()}
+												{item.amount.toLocaleString()}
 											</div>
 										</li>
 									))}

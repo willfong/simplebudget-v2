@@ -24,11 +24,11 @@ async function initializeDB() {
 
 const dbPromise = initializeDB();
 
-async function categoriesAddNew(data) {
+async function categoriesAddNew(name, budget) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_CATEGORIES, "readwrite");
 	const store = tx.objectStore(TABLE_CATEGORIES);
-	await store.add(data);
+	await store.add({ name, budget: budget ? parseFloat(budget) : 0 });
 	await tx.complete;
 }
 
@@ -55,8 +55,7 @@ async function purchasesAdd(categoryId, amount, date, message) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
 	const store = tx.objectStore(TABLE_PURCHASES);
-	const data = { categoryId: parseInt(categoryId, 10), amount, date, message };
-	console.log(data);
+	const data = { categoryId: parseInt(categoryId, 10), amount: parseFloat(amount), date, message };
 	await store.add(data);
 	await tx.complete;
 }

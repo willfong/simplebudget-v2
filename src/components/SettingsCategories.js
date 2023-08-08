@@ -18,7 +18,7 @@ export default function SettingsCategories() {
 	};
 
 	const handleAddNewCategory = async () => {
-		await categoriesAddNew({ name: newCategoryName, budget: newCategoryBudget });
+		await categoriesAddNew(newCategoryName, newCategoryBudget);
 		setNewCategoryName("");
 		setNewCategoryBudget("");
 		fetchCategories();
