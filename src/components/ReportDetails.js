@@ -17,7 +17,7 @@ export default function SpendDetailPage({ purchases, categories }) {
 		<nav className="h-full overflow-y-auto mt-4">
 			{Object.keys(purchases).map((day) => (
 				<div key={day} className="relative">
-					<div className="sticky top-0 z-10 bg-zinc-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 flex justify-between">
+					<div className="sticky top-0 bg-zinc-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 flex justify-between">
 						<h3>{format(new Date(day), "EEE, MMM dd yyyy")}</h3>
 						<div className="text-gray-500">Total: {dayTotals[day].toLocaleString()}</div>
 					</div>
