@@ -5,6 +5,7 @@ import SpendPage from "./pages/Spend";
 import SpendDetailPage from "./pages/SpendDetail";
 import ReportPage from "./pages/Report";
 import SettingsPage from "./pages/Settings";
+import SettingsCategoriesUpdatePage from "./pages/SettingsCategoriesUpdate";
 import Header from "./components/Header";
 
 const routeList = [
@@ -12,7 +13,13 @@ const routeList = [
 	{ name: "Spend", path: "/spend", component: SpendPage, nav: true },
 	{ name: "SpendDetail", path: "/spend/:id", component: SpendDetailPage, nav: false },
 	{ name: "Report", path: "/report", component: ReportPage, nav: true },
-	{ name: "Settings", path: "/settings", component: SettingsPage, nav: true },
+	{ name: "Settings", path: "/settings", component: SettingsPage, nav: false },
+	{
+		name: "SettingsCategoryUpdate",
+		path: "/settings/category-update/:id",
+		component: SettingsCategoriesUpdatePage,
+		nav: true,
+	},
 ];
 
 export default function App() {

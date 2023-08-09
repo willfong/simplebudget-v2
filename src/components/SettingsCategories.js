@@ -94,7 +94,7 @@ export default function SettingsCategories() {
 
 			<dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
 				{categories.map((c) => (
-					<SettingsCategoriesDetails key={c.id} name={c.name} budget={c.budget} monthly={c.monthly} />
+					<SettingsCategoriesDetails key={c.id} categoryId={c.id} name={c.name} budget={c.budget} monthly={c.monthly} />
 				))}
 			</dl>
 			<div className="pt-6 flex-col sm:flex-row space-y-6 border-t-2 mt-6">
