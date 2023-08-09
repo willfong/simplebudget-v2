@@ -67,6 +67,9 @@ export default function SettingsCategories() {
 						value={amount}
 						onChange={handleAmountChange}
 					/>
+					<span className="text-sm  text-zinc-400" id="email-optional">
+						{amount > 999 ? parseFloat(amount).toLocaleString() : ""}
+					</span>
 					<input
 						className="flex-grow p-4 text-lg"
 						type="text"

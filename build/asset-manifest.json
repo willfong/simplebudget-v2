@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/simplebudget-v2/build/static/css/main.ff42caae.css",
-    "main.js": "/simplebudget-v2/build/static/js/main.68a4259d.js",
+    "main.js": "/simplebudget-v2/build/static/js/main.117526fb.js",
     "static/js/787.3e1080e9.chunk.js": "/simplebudget-v2/build/static/js/787.3e1080e9.chunk.js",
     "index.html": "/simplebudget-v2/build/index.html",
     "main.ff42caae.css.map": "/simplebudget-v2/build/static/css/main.ff42caae.css.map",
-    "main.68a4259d.js.map": "/simplebudget-v2/build/static/js/main.68a4259d.js.map",
+    "main.117526fb.js.map": "/simplebudget-v2/build/static/js/main.117526fb.js.map",
     "787.3e1080e9.chunk.js.map": "/simplebudget-v2/build/static/js/787.3e1080e9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ff42caae.css",
-    "static/js/main.68a4259d.js"
+    "static/js/main.117526fb.js"
   ]
 }
