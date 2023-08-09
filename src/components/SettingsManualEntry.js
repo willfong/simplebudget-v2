@@ -46,13 +46,13 @@ export default function SettingsCategories() {
 			<p className="mt-1 text-sm leading-6 text-gray-500">Add a missing purchase.</p>
 
 			<dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
-				<div className="flex flex-col items-center space-y-6 my-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-6">
-					<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} showTimeSelect dateFormat="Pp" />
+				<div className="flex flex-col space-y-6 my-2 lg:flex-row lg:items-center sm:space-y-0 sm:space-x-6">
+					<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="Pp" />
 					<select
 						id="category"
 						name="category"
 						onChange={handleCategoryChange}
-						className="flex-grow mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+						className="flex-grow mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300  text-lg sm:leading-6"
 					>
 						{categories.map((c) => (
 							<option key={c.id} value={c.id}>
@@ -61,24 +61,20 @@ export default function SettingsCategories() {
 						))}
 					</select>
 					<input
-						className="flex-grow p-2"
+						className="flex-grow p-4 text-lg"
 						type="tel"
-						placeholder="amount"
+						placeholder="Amount"
 						value={amount}
 						onChange={handleAmountChange}
 					/>
 					<input
-						className="flex-grow p-2"
+						className="flex-grow p-4 text-lg"
 						type="text"
 						placeholder="Note (optional)"
 						value={message}
 						onChange={handleMessageChange}
 					/>
-					<button
-						type="button"
-						className="font-semibold text-indigo-600 hover:text-indigo-500"
-						onClick={handleAddAmount}
-					>
+					<button type="button" className="font-semibold text-lime-700" onClick={handleAddAmount}>
 						Add
 					</button>
 				</div>

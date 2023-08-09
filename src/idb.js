@@ -48,7 +48,11 @@ async function categoriesGetById(id) {
 }
 
 async function deleteAllData() {
-	await deleteDB(DB_NAME);
+	try {
+		await deleteDB(DB_NAME);
+	} catch (error) {
+		console.error("Error deleting database:", error);
+	}
 }
 
 async function purchasesAdd(categoryId, amount, date, message) {

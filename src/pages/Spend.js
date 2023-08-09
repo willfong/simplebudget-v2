@@ -27,11 +27,11 @@ export default function SpendPage() {
 
 	return (
 		<div>
-			<ul className="divide-y divide-gray-100">
+			<ul className="">
 				{categories.map((c) => (
 					<li
 						key={c.id}
-						className="relative flex justify-between gap-x-6 px-4 py-8 hover:bg-gray-50 sm:px-6 lg:px-8 bg-white m-2"
+						className="relative flex justify-between gap-x-6 px-4 py-8 sm:px-6 lg:px-8 bg-white m-2 border-2 border-gray-200"
 					>
 						<div className="flex gap-x-4 pr-6 sm:w-1/2 sm:flex-none">
 							<div className="min-w-0 flex-auto">
