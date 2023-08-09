@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
+import { format, parseISO, startOfMonth, endOfMonth, endOfDay } from "date-fns";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { Switch } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -35,6 +36,7 @@ export default function ReportPage() {
 		};
 
 		const fetchPurchases = async () => {
+			if (!(customStart && customEnd)) return;
 			const data = await purchasesGetByRange(customStart, customEnd);
 			const purchasesData = data.reduce((acc, item) => {
 				const dateKey = format(item.date, "yyyy-MM-dd");
@@ -111,6 +113,13 @@ export default function ReportPage() {
 		setCustomRange(!customRange);
 	};
 
+	const setDateRange = (dateRange) => {
+		console.log(dateRange);
+		const [startDate, endDate] = dateRange;
+		setCustomStart(startDate);
+		setCustomEnd(endDate ? endOfDay(endDate) : null);
+	};
+
 	if (!dataLoaded) return null;
 
 	return (
@@ -131,10 +140,17 @@ export default function ReportPage() {
 						</div>
 					)}
 					{customRange && (
-						<>
-							Start: <DatePicker selected={customStart} onChange={(date) => setCustomStart(date)} maxDate={customEnd} />
-							End: <DatePicker selected={customEnd} onChange={(date) => setCustomEnd(date)} minDate={customStart} />
-						</>
+						<div className="">
+							<DatePicker
+								className="text-xl text-zinc-500 bg-zinc-100"
+								selectsRange={true}
+								startDate={customStart}
+								endDate={customEnd}
+								onChange={(update) => {
+									setDateRange(update);
+								}}
+							/>
+						</div>
 					)}
 				</div>
 				<div className="flex-shrink items-center">
@@ -177,3 +193,9 @@ export default function ReportPage() {
 		</div>
 	);
 }
+
+/*
+<DatePicker selected={customStart} onChange={(date) => setCustomStart(date)} maxDate={customEnd} />
+							<p>To</p>
+							<DatePicker selected={customEnd} onChange={(date) => setCustomEnd(date)} minDate={customStart} />
+*/
