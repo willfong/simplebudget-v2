@@ -79,14 +79,12 @@ async function purchasesGetByCategory(categoryId) {
 	return sortedData;
 }
 
-async function purchasesGetByMonth(year, month) {
-	const startDate = new Date(year, month);
-	const endDate = new Date();
+async function purchasesGetByRange(startDate, endDate) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readonly");
 	const store = tx.objectStore(TABLE_PURCHASES);
 	const index = store.index(TABLE_PURCHASES_INDEX_DATE);
-	const range = IDBKeyRange.bound(startDate, endDate, false, true);
+	const range = IDBKeyRange.bound(startDate, endDate, false, false);
 	const data = await index.getAll(range);
 	return data;
 }
@@ -98,5 +96,5 @@ export {
 	deleteAllData,
 	purchasesAdd,
 	purchasesGetByCategory,
-	purchasesGetByMonth,
+	purchasesGetByRange,
 };
