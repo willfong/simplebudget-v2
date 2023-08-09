@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { format, getDaysInMonth, differenceInCalendarDays, endOfMonth } from "date-fns";
 
 import { categoriesGetById, purchasesAdd, purchasesGetByCategory } from "../idb";
 
@@ -11,13 +11,23 @@ export default function SpendDetailPage() {
 	const [categoryDetail, setCategoryDetail] = useState({});
 	const [purchases, setPurchases] = useState({});
 	const [spendAmount, setSpendAmount] = useState("");
+	const [spentAmount, setSpentAmount] = useState(0);
 	const [message, setMessage] = useState("");
+	const [dailyBudget, setDailyBudget] = useState(0);
+	const [monthlyBudget, setMonthlyBudget] = useState(0);
+
+	const currentDate = new Date();
+	const daysInMonth = getDaysInMonth(currentDate);
+	const lastDayOfMonth = endOfMonth(currentDate);
+	const daysLeftInMonth = differenceInCalendarDays(lastDayOfMonth, currentDate) + 1;
 
 	useEffect(() => {
 		inputRef.current.focus();
 		const fetchCategoryDetail = async () => {
 			const data = await categoriesGetById(id);
 			setCategoryDetail(data);
+			setDailyBudget(data.monthly ? Math.round(data.budget / daysInMonth) : data.budget);
+			setMonthlyBudget(data.monthly ? data.budget : Math.round(data.budget * daysInMonth));
 		};
 		fetchCategoryDetail();
 
@@ -33,9 +43,14 @@ export default function SpendDetailPage() {
 				return acc;
 			}, {});
 			setPurchases(data);
+			const totalSpent = Object.values(data).reduce((total, array) => {
+				const arraySum = array.reduce((subtotal, item) => subtotal + item.amount, 0);
+				return total + arraySum;
+			}, 0);
+			setSpentAmount(totalSpent);
 		};
 		fetchPurchases();
-	}, [id]);
+	}, [id, daysInMonth]);
 
 	const handleSpendAmount = (event) => {
 		setSpendAmount(event.target.value);
@@ -49,6 +64,16 @@ export default function SpendDetailPage() {
 		const date = new Date();
 		await purchasesAdd(id, spendAmount, date, message);
 		navigate("/spend");
+	};
+
+	const calcWillSpend = () => {
+		const total = parseFloat(spendAmount) / monthlyBudget;
+		return total * 100 + "%";
+	};
+
+	const calcSpent = () => {
+		const total = parseFloat(spentAmount) / monthlyBudget;
+		return total * 100 + "%";
 	};
 
 	return (
@@ -98,7 +123,19 @@ export default function SpendDetailPage() {
 						</div>
 
 						{categoryDetail.budget ? (
-							<p className="mt-1 text-sm leading-6 text-gray-500">Budget: {categoryDetail.budget.toLocaleString()}</p>
+							<div>
+								<div className="overflow-hidden rounded-full bg-zinc-200 flex">
+									<div className="h-2 rounded-full bg-lime-700" style={{ width: calcSpent() }} />
+									<div className="h-2 rounded-full bg-lime-300" style={{ width: calcWillSpend() }} />
+								</div>
+								<p className="mt-1 text-sm leading-6 text-gray-500">Daily Budget: {dailyBudget.toLocaleString()}</p>
+								<p className="mt-1 text-sm leading-6 text-gray-500">Monthly Budget: {monthlyBudget.toLocaleString()}</p>
+								<p className="mt-1 text-sm leading-6 text-gray-500">Spent Total: {spentAmount.toLocaleString()}</p>
+								<p className="mt-1 text-sm leading-6 text-gray-500">Days Left: {daysLeftInMonth}</p>
+								<p className="mt-1 text-sm leading-6 text-gray-500">
+									Target Budget: {Math.round((monthlyBudget - spentAmount) / daysLeftInMonth).toLocaleString()}
+								</p>
+							</div>
 						) : (
 							""
 						)}
