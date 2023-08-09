@@ -91,7 +91,6 @@ export default function SettingsCategoriesUpdatePage() {
 							</Switch.Label>
 						</Switch.Group>
 					</div>
-					<button onClick={update}>Update</button>
 				</div>
 			</main>
 		</div>
