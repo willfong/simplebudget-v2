@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
+import { getDaysInMonth } from "date-fns";
 
 import SettingsCategoriesDetails from "./SettingsCategoriesDetail";
 import { categoriesAddNew, categoriesGetAll } from "../idb";
@@ -40,10 +41,56 @@ export default function SettingsCategories() {
 		setNewCategoryBudget(event.target.value);
 	};
 
+	const currentMonth = () => {
+		const date = new Date();
+		return `${date.toLocaleString("default", { month: "long" })} (${getDaysInMonth(date)} days)`;
+	};
+
+	const dailyBudget = () => {
+		const dailyBudget = categories.reduce((acc, cur) => {
+			if (!cur.monthly) {
+				acc += cur.budget;
+			}
+			return acc;
+		}, 0);
+		const monthlyBudget = categories.reduce((acc, cur) => {
+			if (cur.monthly) {
+				acc += cur.budget;
+			}
+			return acc;
+		}, 0);
+		const date = new Date();
+		const daysInMonth = getDaysInMonth(date);
+		return Math.round(dailyBudget + monthlyBudget / daysInMonth).toLocaleString();
+	};
+
+	const monthlyBudget = () => {
+		const dailyBudget = categories.reduce((acc, cur) => {
+			if (!cur.monthly) {
+				acc += cur.budget;
+			}
+			return acc;
+		}, 0);
+		const monthlyBudget = categories.reduce((acc, cur) => {
+			if (cur.monthly) {
+				acc += cur.budget;
+			}
+			return acc;
+		}, 0);
+		const date = new Date();
+		const daysInMonth = getDaysInMonth(date);
+		return Math.round(monthlyBudget + dailyBudget * daysInMonth).toLocaleString();
+	};
+
 	return (
 		<div className="bg-white p-4">
 			<h2 className="text-base font-semibold leading-7 text-gray-900">Spending Categories</h2>
 			<p className="mt-1 text-sm leading-6 text-gray-500">Budget and track spending by category.</p>
+			<div className="p-4 mt-4 bg-zinc-50 flex">
+				<div className="text-sm text-gray-500 w-1/3">{currentMonth()}</div>
+				<div className="text-sm text-gray-500 w-1/3">Monthly: {monthlyBudget()}</div>
+				<div className="text-sm text-gray-500 w-1/3">Daily: {dailyBudget()}</div>
+			</div>
 
 			<dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
 				{categories.map((c) => (
@@ -82,13 +129,18 @@ export default function SettingsCategories() {
 						<span className="font-medium text-zinc-500">{monthly ? "Monthly Budget" : "Daily Budget"}</span>
 					</Switch.Label>
 				</Switch.Group>
-				<input
-					className="p-2 w-full sm:w-48"
-					type="text"
-					placeholder={`${monthly ? "Monthly" : "Daily"} Budget Amount`}
-					value={newCategoryBudget}
-					onChange={handleNewCategoryBudgetChange}
-				/>
+				<div>
+					<input
+						className="p-2 w-full sm:w-48"
+						type="text"
+						placeholder={`${monthly ? "Monthly" : "Daily"} Budget Amount`}
+						value={newCategoryBudget}
+						onChange={handleNewCategoryBudgetChange}
+					/>
+					<p className="text-sm text-gray-400">
+						{newCategoryBudget > 999 ? parseFloat(newCategoryBudget).toLocaleString() : ""}
+					</p>
+				</div>
 				<button type="button" className="font-semibold text-lime-700 sm:ml-auto" onClick={handleAddNewCategory}>
 					Add
 				</button>
