@@ -13,12 +13,12 @@ const routeList = [
 	{ name: "Spend", path: "/spend", component: SpendPage, nav: true },
 	{ name: "SpendDetail", path: "/spend/:id", component: SpendDetailPage, nav: false },
 	{ name: "Report", path: "/report", component: ReportPage, nav: true },
-	{ name: "Settings", path: "/settings", component: SettingsPage, nav: false },
+	{ name: "Settings", path: "/settings", component: SettingsPage, nav: true },
 	{
 		name: "SettingsCategoryUpdate",
 		path: "/settings/category-update/:id",
 		component: SettingsCategoriesUpdatePage,
-		nav: true,
+		nav: false,
 	},
 ];
 
