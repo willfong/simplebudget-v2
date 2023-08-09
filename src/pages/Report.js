@@ -93,6 +93,14 @@ export default function ReportPage() {
 		setCustomEnd(endOfMonth(currentDate));
 	};
 
+	const resetMonth = () => {
+		const currentDate = new Date();
+		const currentMonth = currentDate.getMonth(); // Returns a zero-based index (0 for January, 1 for February, and so on).
+		setShowMonth(currentMonth);
+		setCustomStart(startOfMonth(currentDate));
+		setCustomEnd(endOfMonth(currentDate));
+	};
+
 	const toggleCustomRange = (e) => {
 		if (!e) {
 			const currentDate = new Date();
@@ -114,7 +122,9 @@ export default function ReportPage() {
 							<span className="flex-shrink" onClick={setPreviousMonth}>
 								<ArrowLeftIcon className="h-6 w-6 text-zinc-500" />
 							</span>
-							<span className="text-2xl text-center font-semibold flex-grow text-zinc-400">{getCurrentMonthly()}</span>
+							<span className="text-2xl text-center font-semibold flex-grow text-zinc-400" onClick={resetMonth}>
+								{getCurrentMonthly()}
+							</span>
 							<span className="flex-shrink" onClick={setNextMonth}>
 								<ArrowRightIcon className="h-6 w-6 text-zinc-500" />
 							</span>
