@@ -149,7 +149,7 @@ export default function SpendDetailPage() {
 										{purchases[day].map((item) => (
 											<li key={item.id} className="flex gap-x-4 px-3 py-5 bg-white">
 												<div className="flex-none flex gap-x-2 items-center">
-													<p className="text-gray-500">{format(item.date, "HH:MM")}</p>
+													<p className="text-gray-500">{format(item.date, "HH:mm")}</p>
 												</div>
 												<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
 													<p className="truncate">{item.message}</p>
