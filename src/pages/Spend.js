@@ -16,13 +16,6 @@ export default function SpendPage() {
 			setCategories(data);
 		};
 		fetchCategories();
-		const scrollToTop = () => {
-			window.scrollTo(0, 0); // Scroll to the top of the window (x: 0, y: 0)
-		};
-		window.addEventListener("scroll", scrollToTop);
-		return () => {
-			window.removeEventListener("scroll", scrollToTop);
-		};
 	}, [navigate]);
 
 	return (
