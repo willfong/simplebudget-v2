@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/simplebudget-v2/build/static/css/main.ff42caae.css",
-    "main.js": "/simplebudget-v2/build/static/js/main.17fa3ce2.js",
-    "static/js/787.3e1080e9.chunk.js": "/simplebudget-v2/build/static/js/787.3e1080e9.chunk.js",
-    "index.html": "/simplebudget-v2/build/index.html",
-    "main.ff42caae.css.map": "/simplebudget-v2/build/static/css/main.ff42caae.css.map",
-    "main.17fa3ce2.js.map": "/simplebudget-v2/build/static/js/main.17fa3ce2.js.map",
-    "787.3e1080e9.chunk.js.map": "/simplebudget-v2/build/static/js/787.3e1080e9.chunk.js.map"
+    "main.css": "/static/css/main.ff42caae.css",
+    "main.js": "/static/js/main.d4c2e7ff.js",
+    "static/js/787.3e1080e9.chunk.js": "/static/js/787.3e1080e9.chunk.js",
+    "index.html": "/index.html",
+    "main.ff42caae.css.map": "/static/css/main.ff42caae.css.map",
+    "main.d4c2e7ff.js.map": "/static/js/main.d4c2e7ff.js.map",
+    "787.3e1080e9.chunk.js.map": "/static/js/787.3e1080e9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ff42caae.css",
-    "static/js/main.17fa3ce2.js"
+    "static/js/main.d4c2e7ff.js"
   ]
 }
