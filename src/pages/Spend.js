@@ -21,10 +21,14 @@ export default function SpendPage() {
 		const fetchRecent = async () => {
 			const data = await purchasesGetRecent();
 			setRecent(data);
-			console.log(data);
 		};
 		fetchRecent();
 	}, [navigate]);
+
+	const categoryNameById = (id) => {
+		const category = categories.find((c) => c.id === id);
+		return category ? category.name : "";
+	};
 
 	return (
 		<div>
@@ -34,7 +38,7 @@ export default function SpendPage() {
 					<ul className="mt-2">
 						{recent.map((p) => (
 							<li key={p.id} className="text-sm text-slate-400">
-								{categories[p.categoryId]["name"]}: {p.amount.toLocaleString()} (
+								{categoryNameById(p.categoryId)}: {p.amount.toLocaleString()} (
 								{formatDistanceToNow(p.date, { addSuffix: true })})
 							</li>
 						))}
