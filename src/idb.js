@@ -24,7 +24,7 @@ async function initializeDB() {
 
 const dbPromise = initializeDB();
 
-async function categoriesAddNew(name, budget, monthly) {
+export async function categoriesAddNew(name, budget, monthly) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_CATEGORIES, "readwrite");
 	const store = tx.objectStore(TABLE_CATEGORIES);
@@ -32,14 +32,14 @@ async function categoriesAddNew(name, budget, monthly) {
 	await tx.complete;
 }
 
-async function categoriesGetAll() {
+export async function categoriesGetAll() {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_CATEGORIES, "readonly");
 	const store = tx.objectStore(TABLE_CATEGORIES);
 	return store.getAll();
 }
 
-async function categoriesGetById(id) {
+export async function categoriesGetById(id) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_CATEGORIES, "readonly");
 	const store = tx.objectStore(TABLE_CATEGORIES);
@@ -47,7 +47,7 @@ async function categoriesGetById(id) {
 	return item;
 }
 
-async function deleteAllData() {
+export async function deleteAllData() {
 	try {
 		await deleteDB(DB_NAME);
 	} catch (error) {
@@ -55,7 +55,7 @@ async function deleteAllData() {
 	}
 }
 
-async function purchasesAdd(categoryId, amount, date, message) {
+export async function purchasesAdd(categoryId, amount, date, message) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
 	const store = tx.objectStore(TABLE_PURCHASES);
@@ -64,7 +64,7 @@ async function purchasesAdd(categoryId, amount, date, message) {
 	await tx.complete;
 }
 
-async function purchasesGetByCategory(categoryId) {
+export async function purchasesGetByCategory(categoryId) {
 	const past30Days = 30 * 24 * 60 * 60 * 1000; // Hardcode 30 days for now?
 	const endDate = new Date(); // Current date and time
 	const startDate = new Date(endDate - past30Days); // Date 30 days ago
@@ -83,7 +83,7 @@ async function purchasesGetByCategory(categoryId) {
 	return sortedData;
 }
 
-async function purchasesGetByRange(startDate, endDate) {
+export async function purchasesGetByRange(startDate, endDate) {
 	const db = await dbPromise;
 	const tx = db.transaction(TABLE_PURCHASES, "readonly");
 	const store = tx.objectStore(TABLE_PURCHASES);
@@ -93,12 +93,16 @@ async function purchasesGetByRange(startDate, endDate) {
 	return data;
 }
 
-export {
-	categoriesAddNew,
-	categoriesGetAll,
-	categoriesGetById,
-	deleteAllData,
-	purchasesAdd,
-	purchasesGetByCategory,
-	purchasesGetByRange,
-};
+export async function purchasesGetRecent() {
+	const startDate = new Date();
+	startDate.setHours(0, 0, 0, 0);
+	const endDate = new Date();
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PURCHASES, "readonly");
+	const store = tx.objectStore(TABLE_PURCHASES);
+	const index = store.index(TABLE_PURCHASES_INDEX_DATE);
+	const range = IDBKeyRange.bound(startDate, endDate, false, true);
+	const data = await index.getAll(range);
+	const sortedData = data.sort((a, b) => b.date - a.date);
+	return sortedData.slice(0, 3);
+}

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
-import { categoriesGetAll } from "../idb";
+import { categoriesGetAll, purchasesGetRecent } from "../idb";
+import { formatDistanceToNow } from "date-fns";
 
 export default function SpendPage() {
 	const navigate = useNavigate();
 	const [categories, setCategories] = useState([]);
+	const [recent, setRecent] = useState([]);
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -16,10 +18,29 @@ export default function SpendPage() {
 			setCategories(data);
 		};
 		fetchCategories();
+		const fetchRecent = async () => {
+			const data = await purchasesGetRecent();
+			setRecent(data);
+			console.log(data);
+		};
+		fetchRecent();
 	}, [navigate]);
 
 	return (
 		<div>
+			{recent.length > 0 && categories.length > 0 && (
+				<div className="p-4">
+					<p className="text-sm font-semibold text-slate-400">Recent purchases today</p>
+					<ul className="mt-2">
+						{recent.map((p) => (
+							<li key={p.id} className="text-sm text-slate-400">
+								{categories[p.categoryId]["name"]}: {p.amount.toLocaleString()} (
+								{formatDistanceToNow(p.date, { addSuffix: true })})
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 			<ul className="">
 				{categories.map((c) => (
 					<li
