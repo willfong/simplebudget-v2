@@ -1,7 +1,8 @@
 import React from "react";
 import { format } from "date-fns";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
-export default function SpendDetailPage({ purchases, categories }) {
+export default function SpendDetailPage({ purchases, categories, deletePurchaseById }) {
 	const categoriesLookup = categories.reduce((acc, c) => {
 		acc[c.id] = c;
 		return acc;
@@ -12,6 +13,12 @@ export default function SpendDetailPage({ purchases, categories }) {
 		result[date] = totalAmount;
 		return result;
 	}, {});
+
+	const handleDeleteClick = (id) => {
+		if (window.confirm("Are you sure you want to delete this item?")) {
+			deletePurchaseById(id);
+		}
+	};
 
 	return (
 		<nav className="h-full overflow-y-auto mt-4">
@@ -31,7 +38,10 @@ export default function SpendDetailPage({ purchases, categories }) {
 								<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
 									<p className="truncate">{item.message}</p>
 								</div>
-								<div className="flex-none flex-shrink-0 text-gray-900 text-right">{item.amount.toLocaleString()}</div>
+								<div className="flex-none flex-shrink-0 text-gray-900 text-right flex items-center">
+									<span>{item.amount.toLocaleString()}</span>
+									<TrashIcon className="h-4 w-4 text-rose-200 ml-2" onClick={() => handleDeleteClick(item.id)} />
+								</div>
 							</li>
 						))}
 					</ul>

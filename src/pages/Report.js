@@ -6,7 +6,7 @@ import { Switch } from "@headlessui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { categoriesGetAll, purchasesGetByRange } from "../idb";
+import { categoriesGetAll, purchasesGetByRange, purchasesDeleteById } from "../idb";
 import ReportSummary from "../components/ReportSummary";
 import ReportDetails from "../components/ReportDetails";
 
@@ -16,6 +16,7 @@ function classNames(...classes) {
 
 export default function ReportPage() {
 	const navigate = useNavigate();
+	const [triggerRender, setTriggerRender] = useState(0);
 	const [showMonth, setShowMonth] = useState(new Date().getMonth());
 	const [customStart, setCustomStart] = useState(startOfMonth(new Date()));
 	const [customEnd, setCustomEnd] = useState(endOfMonth(new Date()));
@@ -57,7 +58,7 @@ export default function ReportPage() {
 		Promise.all([fetchPurchases(), fetchCategories()]).then(() => {
 			setDataLoaded(true);
 		});
-	}, [navigate, customStart, customEnd]);
+	}, [navigate, customStart, customEnd, triggerRender]);
 
 	const getCurrentMonthly = () => {
 		//TODO: Change year as well
@@ -117,6 +118,11 @@ export default function ReportPage() {
 		const [startDate, endDate] = dateRange;
 		setCustomStart(startDate);
 		setCustomEnd(endDate ? endOfDay(endDate) : null);
+	};
+
+	const deletePurchaseById = async (id) => {
+		await purchasesDeleteById(id);
+		setTriggerRender((prev) => prev + 1);
 	};
 
 	if (!dataLoaded) return null;
@@ -187,7 +193,7 @@ export default function ReportPage() {
 			</header>
 			<main className="mt-8">
 				<ReportSummary categories={categories} summary={summary} />
-				<ReportDetails categories={categories} purchases={purchases} />
+				<ReportDetails categories={categories} purchases={purchases} deletePurchaseById={deletePurchaseById} />
 			</main>
 		</div>
 	);

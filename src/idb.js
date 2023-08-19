@@ -106,3 +106,11 @@ export async function purchasesGetRecent() {
 	const sortedData = data.sort((a, b) => b.date - a.date);
 	return sortedData.slice(0, 3);
 }
+
+export async function purchasesDeleteById(id) {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PURCHASES, "readwrite");
+	const store = tx.objectStore(TABLE_PURCHASES);
+	await store.delete(parseInt(id, 10));
+	await tx.complete;
+}
