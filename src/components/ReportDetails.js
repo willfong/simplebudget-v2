@@ -29,21 +29,23 @@ export default function SpendDetailPage({ purchases, categories, deletePurchaseB
 						<div className="text-gray-500">Total: {dayTotals[day].toLocaleString()}</div>
 					</div>
 					<ul className="divide-y divide-gray-100">
-						{purchases[day].map((item) => (
-							<li key={item.id} className="flex gap-x-4 px-3 py-5 bg-white">
-								<div className="flex-none flex gap-x-2 items-center">
-									<p className="text-gray-500">{format(item.date, "HH:mm")}</p>
-									<p className="text-gray-500">{categoriesLookup[item.categoryId]["name"]}</p>
-								</div>
-								<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
-									<p className="truncate">{item.message}</p>
-								</div>
-								<div className="flex-none flex-shrink-0 text-gray-900 text-right flex items-center">
-									<span>{item.amount.toLocaleString()}</span>
-									<TrashIcon className="h-4 w-4 text-rose-200 ml-2" onClick={() => handleDeleteClick(item.id)} />
-								</div>
-							</li>
-						))}
+						{purchases[day]
+							.filter((item) => !categoriesLookup[item.categoryId]?.monthly)
+							.map((item) => (
+								<li key={item.id} className="flex gap-x-4 px-3 py-5 bg-white">
+									<div className="flex-none flex gap-x-2 items-center">
+										<p className="text-gray-500">{format(item.date, "HH:mm")}</p>
+										<p className="text-gray-500">{categoriesLookup[item.categoryId]["name"]}</p>
+									</div>
+									<div className="flex-1 text-gray-500 overflow-hidden whitespace-nowrap">
+										<p className="truncate">{item.message}</p>
+									</div>
+									<div className="flex-none flex-shrink-0 text-gray-900 text-right flex items-center">
+										<span>{item.amount.toLocaleString()}</span>
+										<TrashIcon className="h-4 w-4 text-rose-200 ml-2" onClick={() => handleDeleteClick(item.id)} />
+									</div>
+								</li>
+							))}
 					</ul>
 				</div>
 			))}
