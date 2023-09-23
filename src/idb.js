@@ -47,6 +47,40 @@ export async function categoriesGetById(id) {
 	return item;
 }
 
+export async function categoriesUpdate(id, name, budget, monthly) {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_CATEGORIES, "readwrite");
+	const store = tx.objectStore(TABLE_CATEGORIES);
+	const data = { id: parseInt(id, 10), name, budget: parseFloat(budget), monthly };
+	await store.put(data);
+	await tx.complete;
+}
+
+export async function categoriesDelete(id) {
+	const categoryId = parseInt(id, 10);
+	const db = await dbPromise;
+	const purchaseTx = db.transaction(TABLE_PURCHASES, "readwrite");
+	const purchaseStore = purchaseTx.objectStore(TABLE_PURCHASES);
+	const purchaseIndex = purchaseStore.index(TABLE_PURCHASES_INDEX_CATEGORYID);
+	const IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange; // For browser compatibility
+	const range = IDBKeyRange.bound([categoryId], [categoryId + 1], true, true);
+
+	purchaseIndex.openCursor(range).onsuccess = function (event) {
+		const cursor = event.target.result;
+		if (cursor) {
+			cursor.delete();
+			cursor.continue();
+		}
+	};
+
+	await purchaseTx.complete;
+
+	const categoryTx = db.transaction(TABLE_CATEGORIES, "readwrite");
+	const categoryStore = categoryTx.objectStore(TABLE_CATEGORIES);
+	await categoryStore.delete(categoryId);
+	await categoryTx.complete;
+}
+
 export async function deleteAllData() {
 	try {
 		await deleteDB(DB_NAME);
