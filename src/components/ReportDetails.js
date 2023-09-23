@@ -9,7 +9,7 @@ export default function SpendDetailPage({ purchases, categories, deletePurchaseB
 	}, {});
 
 	const dayTotals = Object.entries(purchases).reduce((result, [date, objectsArray]) => {
-		const filteredArray = objectsArray.filter((obj) => !categories[obj.categoryId]?.monthly);
+		const filteredArray = objectsArray.filter((obj) => categories[obj.categoryId]?.monthly);
 		const totalAmount = filteredArray.reduce((sum, obj) => sum + obj.amount, 0);
 		result[date] = totalAmount;
 		return result;
