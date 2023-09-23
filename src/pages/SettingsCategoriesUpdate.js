@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Switch } from "@headlessui/react";
-import { categoriesGetById } from "../idb";
+import { categoriesGetById, categoriesDelete, categoriesUpdate } from "../idb";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -9,6 +9,7 @@ function classNames(...classes) {
 
 export default function SettingsCategoriesUpdatePage() {
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const [categoryDetail, setCategoryDetail] = useState({});
 	const [newName, setNewName] = useState("");
 	const [newBudget, setNewBudget] = useState(0);
@@ -25,13 +26,23 @@ export default function SettingsCategoriesUpdatePage() {
 		fetchCategoryDetail();
 	}, [id]);
 
+	const handleButtonUpdate = async () => {
+		await categoriesUpdate(id, newName, newBudget, newMonthly);
+		navigate("/settings");
+	};
+
+	const handleButtonDelete = async () => {
+		await categoriesDelete(id);
+		navigate("/settings");
+	};
+
 	return (
 		<div className="p-2">
 			<main className="px-4 py-4 sm:px-6 lg:flex-auto lg:px-0 lg:py-20">
 				<div className="mx-auto max-w-2xl space-y-8 sm:space-y-20 lg:mx-0 lg:max-w-none">
 					<p className="text-2xl font-medium text-zinc-700 ">Category Update: {categoryDetail.name}</p>
-					<div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 bg-white p-4 ">
-						<div className="col-span-full ">
+					<div className="mt-1 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 bg-white p-4">
+						<div className="col-span-full">
 							<label htmlFor="rename" className="block text-sm font-medium leading-6 text-gray-900">
 								Rename
 							</label>
@@ -68,7 +79,7 @@ export default function SettingsCategoriesUpdatePage() {
 							)}
 						</div>
 
-						<Switch.Group as="div" className="flex items-center">
+						<Switch.Group as="div" className="col-span-full flex items-center">
 							<Switch
 								checked={newMonthly}
 								onChange={setNewMonthly}
@@ -90,6 +101,23 @@ export default function SettingsCategoriesUpdatePage() {
 								<span className="font-medium text-zinc-500">{newMonthly ? "Monthly Budget" : "Daily Budget"}</span>
 							</Switch.Label>
 						</Switch.Group>
+						<div className="col-span-full flex justify-between">
+							<div className="flex">
+								<button
+									type="button"
+									className="font-semibold text-white bg-lime-700 hover:bg-lime-600 px-4 py-2 border border-lime-700 rounded shadow-md transition duration-150 ease-in-out"
+									onClick={handleButtonUpdate}
+								>
+									Update
+								</button>
+								<Link to={`/settings`} className="text-gray-500 pl-4 flex items-center">
+									Cancel
+								</Link>
+							</div>
+							<button type="button" className="text-red-400" onClick={handleButtonDelete}>
+								Delete
+							</button>
+						</div>
 					</div>
 				</div>
 			</main>
