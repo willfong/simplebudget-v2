@@ -1,6 +1,7 @@
 import Categories from "../components/SettingsCategories";
 import ManualEntry from "../components/SettingsManualEntry";
 import Reset from "../components/SettingsReset";
+import DataManagement from "../components/SettingsDataManagement";
 
 export default function SettingsPage() {
 	return (
@@ -10,6 +11,7 @@ export default function SettingsPage() {
 					<Categories />
 					<ManualEntry />
 					<Reset />
+					<DataManagement />
 				</div>
 			</main>
 		</div>

@@ -148,3 +148,33 @@ export async function purchasesDeleteById(id) {
 	await store.delete(parseInt(id, 10));
 	await tx.complete;
 }
+
+export async function dataExport() {
+	const db = await openDB(DB_NAME);
+
+	const data = {};
+
+	for (let storeName of db.objectStoreNames) {
+		const transaction = db.transaction(storeName, "readonly");
+		const store = transaction.objectStore(storeName);
+		data[storeName] = await store.getAll();
+	}
+
+	return JSON.stringify(data);
+}
+
+export async function dataImport(jsonData) {
+	const db = await openDB(DB_NAME);
+	const data = JSON.parse(jsonData);
+
+	for (let storeName of db.objectStoreNames) {
+		if (data[storeName]) {
+			const transaction = db.transaction(storeName, "readwrite");
+			const store = transaction.objectStore(storeName);
+			await store.clear();
+			for (let item of data[storeName]) {
+				await store.put(item);
+			}
+		}
+	}
+}
