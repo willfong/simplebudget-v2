@@ -21,7 +21,6 @@ export default function SettingsCategoriesUpdatePage() {
 			setNewName(data.name);
 			setNewBudget(data.budget);
 			setNewMonthly(data.monthly);
-			console.log(data);
 		};
 		fetchCategoryDetail();
 	}, [id]);

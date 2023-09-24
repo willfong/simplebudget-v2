@@ -114,7 +114,6 @@ export default function ReportPage() {
 	};
 
 	const setDateRange = (dateRange) => {
-		console.log(dateRange);
 		const [startDate, endDate] = dateRange;
 		setCustomStart(startDate);
 		setCustomEnd(endDate ? endOfDay(endDate) : null);

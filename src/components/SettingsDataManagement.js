@@ -15,7 +15,6 @@ export default function SettingsDataManagement() {
 
 	const handleImport = async () => {
 		dataImport(inputBox);
-		console.log("Imported");
 		fetchData();
 	};
 
