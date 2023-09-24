@@ -172,7 +172,15 @@ export async function dataImport(jsonData) {
 			const transaction = db.transaction(storeName, "readwrite");
 			const store = transaction.objectStore(storeName);
 			await store.clear();
+
 			for (let item of data[storeName]) {
+				if (item.date && typeof item.date === "string") {
+					const potentialDate = new Date(item.date);
+					if (!isNaN(potentialDate.getTime())) {
+						item.date = potentialDate;
+					}
+				}
+
 				await store.put(item);
 			}
 		}
