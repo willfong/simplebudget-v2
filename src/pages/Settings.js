@@ -1,5 +1,6 @@
 import Categories from "../components/SettingsCategories";
 import ManualEntry from "../components/SettingsManualEntry";
+import Currency from "../components/SettingsCurrency";
 import Reset from "../components/SettingsReset";
 import DataManagement from "../components/SettingsDataManagement";
 
@@ -10,6 +11,7 @@ export default function SettingsPage() {
 				<div className="mx-auto max-w-2xl space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none ">
 					<Categories />
 					<ManualEntry />
+					<Currency />
 					<Reset />
 					<DataManagement />
 				</div>

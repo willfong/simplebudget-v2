@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SpendPage from "./pages/Spend";
 import SpendDetailPage from "./pages/SpendDetail";
 import ReportPage from "./pages/Report";
+import PlanPage from "./pages/Plan";
 import SettingsPage from "./pages/Settings";
 import SettingsCategoriesUpdatePage from "./pages/SettingsCategoriesUpdate";
 import Header from "./components/Header";
@@ -13,6 +14,7 @@ const routeList = [
 	{ name: "Spend", path: "/spend", component: SpendPage, nav: true },
 	{ name: "SpendDetail", path: "/spend/:id", component: SpendDetailPage, nav: false },
 	{ name: "Report", path: "/report", component: ReportPage, nav: true },
+	{ name: "Plan", path: "/plan", component: PlanPage, nav: true },
 	{ name: "Settings", path: "/settings", component: SettingsPage, nav: true },
 	{
 		name: "SettingsCategoryUpdate",
