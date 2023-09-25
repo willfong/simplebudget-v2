@@ -1,7 +1,7 @@
 import { openDB, deleteDB } from "idb";
 
 const DB_NAME = "simplebudget";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const TABLE_CATEGORIES = "categories";
 const TABLE_PURCHASES = "purchases";
 const TABLE_SETTINGS = "settings";
