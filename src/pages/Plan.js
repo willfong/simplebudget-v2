@@ -47,7 +47,6 @@ export default function PlanPage() {
 		);
 		setSummaryExpenses(
 			expense.reduce((total, e) => {
-				console.log(e);
 				if (e.currency === defaultCurrency) {
 					return total + e.amount;
 				} else {
