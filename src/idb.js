@@ -6,6 +6,7 @@ const TABLE_CATEGORIES = "categories";
 const TABLE_PURCHASES = "purchases";
 const TABLE_SETTINGS = "settings";
 const TABLE_CURRENCY = "currency";
+const TABLE_PLAN = "plan";
 const TABLE_PURCHASES_INDEX_DATE = "purchases_index_date";
 const TABLE_PURCHASES_INDEX_CATEGORYID = "purchases_index_categoryid";
 
@@ -25,6 +26,9 @@ async function initializeDB() {
 			}
 			if (!db.objectStoreNames.contains(TABLE_CURRENCY)) {
 				db.createObjectStore(TABLE_CURRENCY, { keyPath: "id", autoIncrement: true });
+			}
+			if (!db.objectStoreNames.contains(TABLE_PLAN)) {
+				db.createObjectStore(TABLE_PLAN, { keyPath: "id", autoIncrement: true });
 			}
 		},
 	});
@@ -265,4 +269,27 @@ export async function currencyGetAll() {
 	}
 
 	return settingsObject;
+}
+
+export async function planGetAll() {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PLAN, "readonly");
+	const store = tx.objectStore(TABLE_PLAN);
+	return await store.getAll();
+}
+
+export async function planAdd(data) {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PLAN, "readwrite");
+	const store = tx.objectStore(TABLE_PLAN);
+	await store.add(data);
+	await tx.complete;
+}
+
+export async function planDelete(key) {
+	const db = await dbPromise;
+	const tx = db.transaction(TABLE_PLAN, "readwrite");
+	const store = tx.objectStore(TABLE_PLAN);
+	await store.delete(key);
+	await tx.complete;
 }
