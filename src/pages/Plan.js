@@ -9,24 +9,31 @@ export default function PlanPage() {
 	const [expense, setExpense] = useState([]);
 	const [summaryIncome, setSummaryIncome] = useState(0);
 	const [summaryExpenses, setSummaryExpenses] = useState(0);
-	const [defaultCurrency, setDefaultCurrency] = useState("");
-	const [currencies, setCurrencies] = useState({});
+	const [defaultCurrency, setDefaultCurrency] = useState(false);
+	const [currencies, setCurrencies] = useState(false);
 
 	useEffect(() => {
-		fetchPlan();
-	}, []);
-
-	const fetchPlan = async () => {
 		const fetchSettings = async () => {
 			const settings = await settingsGet();
 			setDefaultCurrency(settings.defaultCurrency || "");
 		};
-		fetchSettings();
+
 		const fetchCurrencies = async () => {
 			const currencies = await currencyGetAll();
 			setCurrencies(currencies || {});
 		};
+
+		fetchSettings();
 		fetchCurrencies();
+	}, []);
+
+	useEffect(() => {
+		if (defaultCurrency && currencies) {
+			fetchPlan();
+		}
+	}, [defaultCurrency, currencies]);
+
+	const fetchPlan = async () => {
 		const plan = await planGetAll();
 		const income = plan.filter((i) => i.type === "income");
 		const expense = plan.filter((i) => i.type === "expense");
